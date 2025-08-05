@@ -23,12 +23,17 @@ jobs:
         with:
           node-version: '18'
           cache: 'npm'
-          
+
       - name: 设置 pnpm
         uses: pnpm/action-setup@v2
         with:
           version: 8.15.0
-          
+
+      - name: 配置国内镜像源
+        run: |
+          npm config set registry https://registry.npmmirror.com
+          pnpm config set registry https://registry.npmmirror.com
+
       - name: 安装依赖
         run: pnpm install --frozen-lockfile
         
