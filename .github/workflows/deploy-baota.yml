@@ -1,0 +1,217 @@
+name: 部署到宝塔服务器
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  PROJECT_NAME: cosmos-explorer
+  CONTAINER_NAME: cosmos-explorer-app
+
+jobs:
+  # 代码质量检查
+  quality-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+        
+      - name: 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: 设置 pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.15.0
+          
+      - name: 安装依赖
+        run: pnpm install --frozen-lockfile
+        
+      - name: 类型检查
+        run: pnpm type-check
+        
+      - name: 代码检查
+        run: pnpm lint
+        
+      - name: 运行测试
+        run: pnpm test
+        
+      - name: 构建检查
+        run: pnpm build
+
+  # 部署到开发环境
+  deploy-dev:
+    needs: quality-check
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop'
+    environment: development
+    
+    steps:
+      - name: 部署到开发服务器
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.DEV_HOST }}
+          username: ${{ secrets.DEV_USERNAME }}
+          key: ${{ secrets.DEV_SSH_KEY }}
+          script: |
+            echo "🚀 开始部署到开发环境..."
+            
+            # 进入项目目录
+            cd /www/wwwroot/${{ env.PROJECT_NAME }} || {
+              echo "📥 首次部署，克隆项目..."
+              cd /www/wwwroot
+              git clone ${{ github.server_url }}/${{ github.repository }}.git ${{ env.PROJECT_NAME }}
+              cd ${{ env.PROJECT_NAME }}
+            }
+            
+            # 拉取最新代码
+            echo "📡 拉取最新代码..."
+            git fetch origin
+            git reset --hard origin/develop
+            
+            # 停止旧容器
+            echo "🛑 停止旧容器..."
+            docker stop ${{ env.CONTAINER_NAME }}-dev 2>/dev/null || true
+            docker rm ${{ env.CONTAINER_NAME }}-dev 2>/dev/null || true
+            
+            # 构建新镜像
+            echo "🔨 构建 Docker 镜像..."
+            docker build -t ${{ env.PROJECT_NAME }}:dev .
+            
+            # 启动新容器
+            echo "🚀 启动新容器..."
+            docker run -d \
+              --name ${{ env.CONTAINER_NAME }}-dev \
+              -p 3000:80 \
+              --restart unless-stopped \
+              ${{ env.PROJECT_NAME }}:dev
+            
+            # 健康检查
+            echo "🏥 健康检查..."
+            sleep 10
+            if curl -f http://localhost:3000/health; then
+              echo "✅ 开发环境部署成功！"
+            else
+              echo "❌ 健康检查失败"
+              docker logs ${{ env.CONTAINER_NAME }}-dev --tail 20
+              exit 1
+            fi
+
+  # 部署到生产环境
+  deploy-prod:
+    needs: quality-check
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    environment: production
+    
+    steps:
+      - name: 部署到生产服务器
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          username: ${{ secrets.PROD_USERNAME }}
+          key: ${{ secrets.PROD_SSH_KEY }}
+          script: |
+            echo "🚀 开始部署到生产环境..."
+            
+            # 进入项目目录
+            cd /www/wwwroot/${{ env.PROJECT_NAME }} || {
+              echo "📥 首次部署，克隆项目..."
+              cd /www/wwwroot
+              git clone ${{ github.server_url }}/${{ github.repository }}.git ${{ env.PROJECT_NAME }}
+              cd ${{ env.PROJECT_NAME }}
+            }
+            
+            # 拉取最新代码
+            echo "📡 拉取最新代码..."
+            git fetch origin
+            git reset --hard origin/main
+            
+            # 备份当前镜像
+            echo "💾 备份当前镜像..."
+            docker tag ${{ env.PROJECT_NAME }}:latest ${{ env.PROJECT_NAME }}:backup-$(date +%Y%m%d-%H%M%S) 2>/dev/null || true
+            
+            # 构建新镜像
+            echo "🔨 构建 Docker 镜像..."
+            docker build -t ${{ env.PROJECT_NAME }}:latest .
+            
+            # 停止旧容器
+            echo "🛑 停止旧容器..."
+            docker stop ${{ env.CONTAINER_NAME }} 2>/dev/null || true
+            docker rm ${{ env.CONTAINER_NAME }} 2>/dev/null || true
+            
+            # 启动新容器
+            echo "🚀 启动新容器..."
+            docker run -d \
+              --name ${{ env.CONTAINER_NAME }} \
+              -p 80:80 \
+              --restart unless-stopped \
+              ${{ env.PROJECT_NAME }}:latest
+            
+            # 健康检查
+            echo "🏥 健康检查..."
+            sleep 15
+            max_attempts=5
+            attempt=1
+            
+            while [ $attempt -le $max_attempts ]; do
+              if curl -f http://localhost/health; then
+                echo "✅ 生产环境部署成功！"
+                
+                # 清理旧镜像（保留最近3个备份）
+                echo "🧹 清理旧镜像..."
+                docker images ${{ env.PROJECT_NAME }} --format "table {{.Repository}}:{{.Tag}}\t{{.CreatedAt}}" | \
+                grep backup | sort -k2 -r | tail -n +4 | awk '{print $1}' | xargs -r docker rmi
+                
+                exit 0
+              fi
+              
+              echo "⚠️ 健康检查失败，尝试 $attempt/$max_attempts..."
+              sleep 10
+              ((attempt++))
+            done
+            
+            # 健康检查失败，回滚
+            echo "❌ 健康检查失败，开始回滚..."
+            docker stop ${{ env.CONTAINER_NAME }}
+            docker rm ${{ env.CONTAINER_NAME }}
+            
+            # 查找最新的备份镜像
+            backup_image=$(docker images ${{ env.PROJECT_NAME }} --format "{{.Repository}}:{{.Tag}}" | grep backup | head -1)
+            if [ ! -z "$backup_image" ]; then
+              echo "🔄 回滚到: $backup_image"
+              docker tag $backup_image ${{ env.PROJECT_NAME }}:latest
+              docker run -d \
+                --name ${{ env.CONTAINER_NAME }} \
+                -p 80:80 \
+                --restart unless-stopped \
+                ${{ env.PROJECT_NAME }}:latest
+              echo "✅ 回滚完成"
+            else
+              echo "❌ 没有找到备份镜像"
+            fi
+            
+            exit 1
+
+      - name: 部署成功通知
+        if: success()
+        uses: 8398a7/action-slack@v3
+        with:
+          status: success
+          text: "🚀 宇宙探索者已成功部署到生产环境！"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          
+      - name: 部署失败通知
+        if: failure()
+        uses: 8398a7/action-slack@v3
+        with:
+          status: failure
+          text: "❌ 宇宙探索者部署失败，请检查日志！"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

@@ -1,0 +1,578 @@
+/**
+ * 尺度系统常量定义
+ * 定义25个数量级的详细尺度信息
+ */
+
+import { ScaleLevel, type ScaleInfo } from '@/types/scale';
+
+/**
+ * 25个数量级的尺度信息
+ * 从亚原子粒子到可观测宇宙
+ */
+export const SCALE_DEFINITIONS: Record<ScaleLevel, ScaleInfo> = {
+  [ScaleLevel.SUBATOMIC]: {
+    level: ScaleLevel.SUBATOMIC,
+    name: 'Subatomic',
+    nameCN: '亚原子',
+    size: 1e-15,
+    magnitude: -15,
+    description: 'Subatomic particles: quarks, electrons, protons, neutrons',
+    descriptionCN: '亚原子粒子：夸克、电子、质子、中子',
+    examples: ['Quarks', 'Electrons', 'Protons', 'Neutrons'],
+    examplesCN: ['夸克', '电子', '质子', '中子'],
+    defaultCameraDistance: 1e-14,
+    minCameraDistance: 1e-16,
+    maxCameraDistance: 1e-13,
+    lodLevel: 5,
+    enablePhysics: true,
+    timeScale: 1e-21,
+  },
+
+  [ScaleLevel.ATOMIC]: {
+    level: ScaleLevel.ATOMIC,
+    name: 'Atomic',
+    nameCN: '原子',
+    size: 1e-10,
+    magnitude: -10,
+    description: 'Atoms and atomic structures',
+    descriptionCN: '原子和原子结构',
+    examples: ['Hydrogen atom', 'Carbon atom', 'Oxygen atom'],
+    examplesCN: ['氢原子', '碳原子', '氧原子'],
+    defaultCameraDistance: 1e-9,
+    minCameraDistance: 1e-11,
+    maxCameraDistance: 1e-8,
+    lodLevel: 4,
+    enablePhysics: true,
+    timeScale: 1e-15,
+  },
+
+  [ScaleLevel.MOLECULAR]: {
+    level: ScaleLevel.MOLECULAR,
+    name: 'Molecular',
+    nameCN: '分子',
+    size: 1e-9,
+    magnitude: -9,
+    description: 'Molecules and molecular structures',
+    descriptionCN: '分子和分子结构',
+    examples: ['Water molecule', 'DNA', 'Proteins'],
+    examplesCN: ['水分子', 'DNA', '蛋白质'],
+    defaultCameraDistance: 1e-8,
+    minCameraDistance: 1e-10,
+    maxCameraDistance: 1e-7,
+    lodLevel: 4,
+    enablePhysics: true,
+    timeScale: 1e-12,
+  },
+
+  [ScaleLevel.NANOSCALE]: {
+    level: ScaleLevel.NANOSCALE,
+    name: 'Nanoscale',
+    nameCN: '纳米尺度',
+    size: 1e-8,
+    magnitude: -8,
+    description: 'Nanoscale structures and materials',
+    descriptionCN: '纳米结构和材料',
+    examples: ['Nanotubes', 'Quantum dots', 'Viruses'],
+    examplesCN: ['纳米管', '量子点', '病毒'],
+    defaultCameraDistance: 1e-7,
+    minCameraDistance: 1e-9,
+    maxCameraDistance: 1e-6,
+    lodLevel: 3,
+    enablePhysics: true,
+    timeScale: 1e-9,
+  },
+
+  [ScaleLevel.CELLULAR]: {
+    level: ScaleLevel.CELLULAR,
+    name: 'Cellular',
+    nameCN: '细胞',
+    size: 1e-6,
+    magnitude: -6,
+    description: 'Cells and cellular structures',
+    descriptionCN: '细胞和细胞结构',
+    examples: ['Bacteria', 'Human cells', 'Plant cells'],
+    examplesCN: ['细菌', '人体细胞', '植物细胞'],
+    defaultCameraDistance: 1e-5,
+    minCameraDistance: 1e-7,
+    maxCameraDistance: 1e-4,
+    lodLevel: 3,
+    enablePhysics: false,
+    timeScale: 1e-6,
+  },
+
+  [ScaleLevel.MICROSCOPIC]: {
+    level: ScaleLevel.MICROSCOPIC,
+    name: 'Microscopic',
+    nameCN: '显微镜尺度',
+    size: 1e-5,
+    magnitude: -5,
+    description: 'Microscopic organisms and structures',
+    descriptionCN: '显微镜下的生物和结构',
+    examples: ['Microorganisms', 'Pollen', 'Dust mites'],
+    examplesCN: ['微生物', '花粉', '尘螨'],
+    defaultCameraDistance: 1e-4,
+    minCameraDistance: 1e-6,
+    maxCameraDistance: 1e-3,
+    lodLevel: 2,
+    enablePhysics: false,
+    timeScale: 1e-3,
+  },
+
+  [ScaleLevel.MILLIMETER]: {
+    level: ScaleLevel.MILLIMETER,
+    name: 'Millimeter',
+    nameCN: '毫米',
+    size: 1e-3,
+    magnitude: -3,
+    description: 'Small objects visible to naked eye',
+    descriptionCN: '肉眼可见的小物体',
+    examples: ['Insects', 'Seeds', 'Small components'],
+    examplesCN: ['昆虫', '种子', '小零件'],
+    defaultCameraDistance: 1e-2,
+    minCameraDistance: 1e-4,
+    maxCameraDistance: 1e-1,
+    lodLevel: 2,
+    enablePhysics: false,
+    timeScale: 1,
+  },
+
+  [ScaleLevel.CENTIMETER]: {
+    level: ScaleLevel.CENTIMETER,
+    name: 'Centimeter',
+    nameCN: '厘米',
+    size: 1e-2,
+    magnitude: -2,
+    description: 'Small everyday objects',
+    descriptionCN: '日常小物品',
+    examples: ['Coins', 'Buttons', 'Small tools'],
+    examplesCN: ['硬币', '纽扣', '小工具'],
+    defaultCameraDistance: 1e-1,
+    minCameraDistance: 1e-3,
+    maxCameraDistance: 1,
+    lodLevel: 1,
+    enablePhysics: false,
+    timeScale: 1,
+  },
+
+  [ScaleLevel.HUMAN_SCALE]: {
+    level: ScaleLevel.HUMAN_SCALE,
+    name: 'Human Scale',
+    nameCN: '人体尺度',
+    size: 1,
+    magnitude: 0,
+    description: 'Human-sized objects and spaces',
+    descriptionCN: '人体大小的物体和空间',
+    examples: ['Humans', 'Furniture', 'Rooms'],
+    examplesCN: ['人类', '家具', '房间'],
+    defaultCameraDistance: 10,
+    minCameraDistance: 0.1,
+    maxCameraDistance: 100,
+    lodLevel: 1,
+    enablePhysics: false,
+    timeScale: 1,
+  },
+
+  [ScaleLevel.BUILDING]: {
+    level: ScaleLevel.BUILDING,
+    name: 'Building',
+    nameCN: '建筑物',
+    size: 10,
+    magnitude: 1,
+    description: 'Buildings and large structures',
+    descriptionCN: '建筑物和大型结构',
+    examples: ['Houses', 'Trees', 'Vehicles'],
+    examplesCN: ['房屋', '树木', '车辆'],
+    defaultCameraDistance: 100,
+    minCameraDistance: 1,
+    maxCameraDistance: 1000,
+    lodLevel: 1,
+    enablePhysics: false,
+    timeScale: 1,
+  },
+
+  [ScaleLevel.CITY_BLOCK]: {
+    level: ScaleLevel.CITY_BLOCK,
+    name: 'City Block',
+    nameCN: '街区',
+    size: 100,
+    magnitude: 2,
+    description: 'City blocks and neighborhoods',
+    descriptionCN: '城市街区和社区',
+    examples: ['City blocks', 'Parks', 'Shopping centers'],
+    examplesCN: ['城市街区', '公园', '购物中心'],
+    defaultCameraDistance: 1000,
+    minCameraDistance: 10,
+    maxCameraDistance: 10000,
+    lodLevel: 0,
+    enablePhysics: false,
+    timeScale: 1,
+  },
+
+  [ScaleLevel.CITY]: {
+    level: ScaleLevel.CITY,
+    name: 'City',
+    nameCN: '城市',
+    size: 10000,
+    magnitude: 4,
+    description: 'Cities and urban areas',
+    descriptionCN: '城市和城市区域',
+    examples: ['Cities', 'Metropolitan areas', 'Large lakes'],
+    examplesCN: ['城市', '都市区', '大型湖泊'],
+    defaultCameraDistance: 100000,
+    minCameraDistance: 1000,
+    maxCameraDistance: 1000000,
+    lodLevel: 0,
+    enablePhysics: false,
+    timeScale: 1,
+  },
+
+  [ScaleLevel.REGIONAL]: {
+    level: ScaleLevel.REGIONAL,
+    name: 'Regional',
+    nameCN: '地区',
+    size: 100000,
+    magnitude: 5,
+    description: 'Regions and small countries',
+    descriptionCN: '地区和小国家',
+    examples: ['States', 'Provinces', 'Small countries'],
+    examplesCN: ['州', '省', '小国家'],
+    defaultCameraDistance: 1000000,
+    minCameraDistance: 10000,
+    maxCameraDistance: 10000000,
+    lodLevel: 0,
+    enablePhysics: false,
+    timeScale: 1,
+  },
+
+  [ScaleLevel.CONTINENTAL]: {
+    level: ScaleLevel.CONTINENTAL,
+    name: 'Continental',
+    nameCN: '大陆',
+    size: 1000000,
+    magnitude: 6,
+    description: 'Continents and large countries',
+    descriptionCN: '大陆和大国',
+    examples: ['Continents', 'Large countries', 'Ocean basins'],
+    examplesCN: ['大陆', '大国', '海洋盆地'],
+    defaultCameraDistance: 10000000,
+    minCameraDistance: 100000,
+    maxCameraDistance: 100000000,
+    lodLevel: 0,
+    enablePhysics: false,
+    timeScale: 1,
+  },
+
+  [ScaleLevel.PLANETARY]: {
+    level: ScaleLevel.PLANETARY,
+    name: 'Planetary Surface',
+    nameCN: '行星表面',
+    size: 10000000,
+    magnitude: 7,
+    description: 'Planetary surfaces and features',
+    descriptionCN: '行星表面和地形特征',
+    examples: ['Mountain ranges', 'Ocean systems', 'Weather patterns'],
+    examplesCN: ['山脉', '海洋系统', '天气模式'],
+    defaultCameraDistance: 100000000,
+    minCameraDistance: 1000000,
+    maxCameraDistance: 1000000000,
+    lodLevel: 0,
+    enablePhysics: true,
+    timeScale: 86400, // 1 day
+  },
+
+  [ScaleLevel.PLANET]: {
+    level: ScaleLevel.PLANET,
+    name: 'Planet',
+    nameCN: '行星',
+    size: 10000000,
+    magnitude: 7,
+    description: 'Entire planets and moons',
+    descriptionCN: '整个行星和卫星',
+    examples: ['Earth', 'Mars', 'Moon'],
+    examplesCN: ['地球', '火星', '月球'],
+    defaultCameraDistance: 100000000,
+    minCameraDistance: 10000000,
+    maxCameraDistance: 1000000000,
+    lodLevel: 0,
+    enablePhysics: true,
+    timeScale: 86400, // 1 day
+  },
+
+  [ScaleLevel.ORBITAL]: {
+    level: ScaleLevel.ORBITAL,
+    name: 'Orbital Space',
+    nameCN: '轨道空间',
+    size: 100000000,
+    magnitude: 8,
+    description: 'Orbital space around planets',
+    descriptionCN: '行星周围的轨道空间',
+    examples: ['Satellite orbits', 'Space stations', 'Debris fields'],
+    examplesCN: ['卫星轨道', '空间站', '碎片场'],
+    defaultCameraDistance: 1000000000,
+    minCameraDistance: 100000000,
+    maxCameraDistance: 10000000000,
+    lodLevel: 0,
+    enablePhysics: true,
+    timeScale: 86400, // 1 day
+  },
+
+  [ScaleLevel.INNER_SYSTEM]: {
+    level: ScaleLevel.INNER_SYSTEM,
+    name: 'Inner Solar System',
+    nameCN: '内太阳系',
+    size: 1000000000,
+    magnitude: 9,
+    description: 'Inner solar system with terrestrial planets',
+    descriptionCN: '包含类地行星的内太阳系',
+    examples: ['Mercury', 'Venus', 'Earth', 'Mars'],
+    examplesCN: ['水星', '金星', '地球', '火星'],
+    defaultCameraDistance: 10000000000,
+    minCameraDistance: 1000000000,
+    maxCameraDistance: 100000000000,
+    lodLevel: 0,
+    enablePhysics: true,
+    timeScale: 86400 * 30, // 1 month
+  },
+
+  [ScaleLevel.SOLAR_SYSTEM]: {
+    level: ScaleLevel.SOLAR_SYSTEM,
+    name: 'Solar System',
+    nameCN: '太阳系',
+    size: 1000000000000,
+    magnitude: 12,
+    description: 'Complete solar system with all planets',
+    descriptionCN: '包含所有行星的完整太阳系',
+    examples: ['All planets', 'Asteroid belt', 'Kuiper belt'],
+    examplesCN: ['所有行星', '小行星带', '柯伊伯带'],
+    defaultCameraDistance: 10000000000000,
+    minCameraDistance: 1000000000000,
+    maxCameraDistance: 100000000000000,
+    lodLevel: 0,
+    enablePhysics: true,
+    timeScale: 86400 * 365, // 1 year
+  },
+
+  [ScaleLevel.OUTER_SYSTEM]: {
+    level: ScaleLevel.OUTER_SYSTEM,
+    name: 'Outer Solar System',
+    nameCN: '外太阳系',
+    size: 10000000000000,
+    magnitude: 13,
+    description: 'Outer solar system and Oort cloud',
+    descriptionCN: '外太阳系和奥尔特云',
+    examples: ['Oort cloud', 'Comets', 'Interplanetary space'],
+    examplesCN: ['奥尔特云', '彗星', '行星际空间'],
+    defaultCameraDistance: 100000000000000,
+    minCameraDistance: 10000000000000,
+    maxCameraDistance: 1000000000000000,
+    lodLevel: 0,
+    enablePhysics: true,
+    timeScale: 86400 * 365 * 10, // 10 years
+  },
+
+  [ScaleLevel.HELIOSPHERE]: {
+    level: ScaleLevel.HELIOSPHERE,
+    name: 'Heliosphere',
+    nameCN: '日球层',
+    size: 10000000000000,
+    magnitude: 13,
+    description: 'Solar wind influence region',
+    descriptionCN: '太阳风影响区域',
+    examples: ['Heliosphere', 'Termination shock', 'Heliopause'],
+    examplesCN: ['日球层', '终端激波', '日球层顶'],
+    defaultCameraDistance: 100000000000000,
+    minCameraDistance: 10000000000000,
+    maxCameraDistance: 1000000000000000,
+    lodLevel: 0,
+    enablePhysics: true,
+    timeScale: 86400 * 365 * 100, // 100 years
+  },
+
+  [ScaleLevel.STELLAR]: {
+    level: ScaleLevel.STELLAR,
+    name: 'Stellar',
+    nameCN: '恒星际',
+    size: 100000000000000000,
+    magnitude: 16,
+    description: 'Interstellar space between stars',
+    descriptionCN: '恒星之间的星际空间',
+    examples: ['Interstellar medium', 'Nearby stars', 'Brown dwarfs'],
+    examplesCN: ['星际介质', '邻近恒星', '褐矮星'],
+    defaultCameraDistance: 1000000000000000000,
+    minCameraDistance: 100000000000000000,
+    maxCameraDistance: 10000000000000000000,
+    lodLevel: 0,
+    enablePhysics: true,
+    timeScale: 86400 * 365 * 1000, // 1000 years
+  },
+
+  [ScaleLevel.LOCAL_STARS]: {
+    level: ScaleLevel.LOCAL_STARS,
+    name: 'Local Stars',
+    nameCN: '邻近恒星',
+    size: 1000000000000000000,
+    magnitude: 17,
+    description: 'Local stellar neighborhood',
+    descriptionCN: '本地恒星邻域',
+    examples: ['Alpha Centauri', 'Sirius', 'Local stellar group'],
+    examplesCN: ['半人马座α星', '天狼星', '本地恒星群'],
+    defaultCameraDistance: 10000000000000000000,
+    minCameraDistance: 1000000000000000000,
+    maxCameraDistance: 100000000000000000000,
+    lodLevel: 0,
+    enablePhysics: true,
+    timeScale: 86400 * 365 * 10000, // 10,000 years
+  },
+
+  [ScaleLevel.GALACTIC_LOCAL]: {
+    level: ScaleLevel.GALACTIC_LOCAL,
+    name: 'Local Galactic',
+    nameCN: '银河系局部',
+    size: 1000000000000000000000,
+    magnitude: 18,
+    description: 'Local galactic region and spiral arm',
+    descriptionCN: '银河系局部区域和旋臂',
+    examples: ['Orion Arm', 'Local bubble', 'Star clusters'],
+    examplesCN: ['猎户臂', '本地泡', '星团'],
+    defaultCameraDistance: 10000000000000000000000,
+    minCameraDistance: 1000000000000000000000,
+    maxCameraDistance: 100000000000000000000000,
+    lodLevel: 0,
+    enablePhysics: true,
+    timeScale: 86400 * 365 * 100000, // 100,000 years
+  },
+
+  [ScaleLevel.GALACTIC]: {
+    level: ScaleLevel.GALACTIC,
+    name: 'Galactic',
+    nameCN: '银河系',
+    size: 1000000000000000000000000,
+    magnitude: 21,
+    description: 'Entire Milky Way galaxy',
+    descriptionCN: '整个银河系',
+    examples: ['Milky Way', 'Galactic center', 'Spiral arms'],
+    examplesCN: ['银河系', '银心', '旋臂'],
+    defaultCameraDistance: 10000000000000000000000000,
+    minCameraDistance: 1000000000000000000000000,
+    maxCameraDistance: 100000000000000000000000000,
+    lodLevel: 0,
+    enablePhysics: true,
+    timeScale: 86400 * 365 * 1000000, // 1 million years
+  },
+
+  [ScaleLevel.LOCAL_GROUP]: {
+    level: ScaleLevel.LOCAL_GROUP,
+    name: 'Local Group',
+    nameCN: '本星系群',
+    size: 10000000000000000000000000,
+    magnitude: 22,
+    description: 'Local group of galaxies',
+    descriptionCN: '本地星系群',
+    examples: ['Milky Way', 'Andromeda', 'Triangulum'],
+    examplesCN: ['银河系', '仙女座星系', '三角座星系'],
+    defaultCameraDistance: 100000000000000000000000000,
+    minCameraDistance: 10000000000000000000000000,
+    maxCameraDistance: 1000000000000000000000000000,
+    lodLevel: 0,
+    enablePhysics: true,
+    timeScale: 86400 * 365 * 10000000, // 10 million years
+  },
+
+  [ScaleLevel.COSMIC]: {
+    level: ScaleLevel.COSMIC,
+    name: 'Cosmic',
+    nameCN: '宇宙大尺度',
+    size: 1000000000000000000000000000,
+    magnitude: 24,
+    description: 'Large-scale cosmic structures',
+    descriptionCN: '宇宙大尺度结构',
+    examples: ['Galaxy clusters', 'Cosmic web', 'Voids'],
+    examplesCN: ['星系团', '宇宙网', '空洞'],
+    defaultCameraDistance: 10000000000000000000000000000,
+    minCameraDistance: 1000000000000000000000000000,
+    maxCameraDistance: 100000000000000000000000000000,
+    lodLevel: 0,
+    enablePhysics: false,
+    timeScale: 86400 * 365 * 100000000, // 100 million years
+  },
+
+  [ScaleLevel.UNIVERSE]: {
+    level: ScaleLevel.UNIVERSE,
+    name: 'Universe',
+    nameCN: '可观测宇宙',
+    size: 100000000000000000000000000000,
+    magnitude: 26,
+    description: 'Observable universe',
+    descriptionCN: '可观测宇宙',
+    examples: ['Observable universe', 'Cosmic microwave background', 'Big Bang'],
+    examplesCN: ['可观测宇宙', '宇宙微波背景', '大爆炸'],
+    defaultCameraDistance: 1000000000000000000000000000000,
+    minCameraDistance: 100000000000000000000000000000,
+    maxCameraDistance: 10000000000000000000000000000000,
+    lodLevel: 0,
+    enablePhysics: false,
+    timeScale: 86400 * 365 * 1000000000, // 1 billion years
+  },
+};
+
+/**
+ * 尺度级别数组（按大小排序）
+ */
+export const SCALE_LEVELS_ORDERED: ScaleLevel[] = [
+  ScaleLevel.SUBATOMIC,
+  ScaleLevel.ATOMIC,
+  ScaleLevel.MOLECULAR,
+  ScaleLevel.NANOSCALE,
+  ScaleLevel.CELLULAR,
+  ScaleLevel.MICROSCOPIC,
+  ScaleLevel.MILLIMETER,
+  ScaleLevel.CENTIMETER,
+  ScaleLevel.HUMAN_SCALE,
+  ScaleLevel.BUILDING,
+  ScaleLevel.CITY_BLOCK,
+  ScaleLevel.CITY,
+  ScaleLevel.REGIONAL,
+  ScaleLevel.CONTINENTAL,
+  ScaleLevel.PLANETARY,
+  ScaleLevel.PLANET,
+  ScaleLevel.ORBITAL,
+  ScaleLevel.INNER_SYSTEM,
+  ScaleLevel.SOLAR_SYSTEM,
+  ScaleLevel.OUTER_SYSTEM,
+  ScaleLevel.HELIOSPHERE,
+  ScaleLevel.STELLAR,
+  ScaleLevel.LOCAL_STARS,
+  ScaleLevel.GALACTIC_LOCAL,
+  ScaleLevel.GALACTIC,
+  ScaleLevel.LOCAL_GROUP,
+  ScaleLevel.COSMIC,
+  ScaleLevel.UNIVERSE,
+];
+
+/**
+ * 获取尺度级别的索引
+ */
+export const getScaleIndex = (scale: ScaleLevel): number => {
+  return SCALE_LEVELS_ORDERED.indexOf(scale);
+};
+
+/**
+ * 获取相邻的尺度级别
+ */
+export const getAdjacentScales = (scale: ScaleLevel): {
+  smaller?: ScaleLevel;
+  larger?: ScaleLevel;
+} => {
+  const index = getScaleIndex(scale);
+  return {
+    smaller: index > 0 ? SCALE_LEVELS_ORDERED[index - 1] : undefined,
+    larger: index < SCALE_LEVELS_ORDERED.length - 1 ? SCALE_LEVELS_ORDERED[index + 1] : undefined,
+  };
+};
+
+/**
+ * 计算两个尺度之间的级别差
+ */
+export const getScaleDifference = (from: ScaleLevel, to: ScaleLevel): number => {
+  return getScaleIndex(to) - getScaleIndex(from);
+};

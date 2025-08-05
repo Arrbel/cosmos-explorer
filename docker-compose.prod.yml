@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  cosmos-explorer:
+    image: ${DOCKER_REGISTRY}/cosmos-explorer:${IMAGE_TAG:-latest}
+    container_name: cosmos-explorer-prod
+    ports:
+      - "80:80"
+    environment:
+      - NODE_ENV=production
+      - REACT_APP_API_URL=${API_URL}
+      - REACT_APP_CDN_URL=${CDN_URL}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - cosmos-prod-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+
+  # 日志收集
+  fluentd:
+    image: fluent/fluentd:v1.16-debian-1
+    container_name: cosmos-fluentd
+    volumes:
+      - ./logging/fluent.conf:/fluentd/etc/fluent.conf:ro
+      - /var/log:/var/log:ro
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+    networks:
+      - cosmos-prod-network
+    restart: unless-stopped
+
+networks:
+  cosmos-prod-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

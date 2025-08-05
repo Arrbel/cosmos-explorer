@@ -1,0 +1,261 @@
+import React from 'react';
+
+function App() {
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-indigo-950 via-purple-950 to-black text-white overflow-x-hidden">
+      {/* Animated Background Stars */}
+      <div className="fixed inset-0 z-0">
+        {[...Array(100)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-1 h-1 bg-white rounded-full animate-pulse opacity-60"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 3}s`,
+              animationDuration: `${2 + Math.random() * 3}s`
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Navigation */}
+      <nav className="relative z-10 flex justify-between items-center p-6 bg-black/20 backdrop-blur-sm border-b border-white/10">
+        <div className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+          宇宙探索者
+        </div>
+        <div className="hidden md:flex space-x-8">
+          <a href="#solar" className="hover:text-blue-300 transition-colors">太阳系</a>
+          <a href="#deepspace" className="hover:text-purple-300 transition-colors">深空探索</a>
+          <a href="#ancient" className="hover:text-yellow-300 transition-colors">古代天文</a>
+          <a href="#learning" className="hover:text-green-300 transition-colors">学习中心</a>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <section className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6">
+        <div className="text-center space-y-8">
+          <h1 className="text-6xl md:text-8xl font-bold bg-gradient-to-r from-blue-300 via-purple-300 to-pink-300 bg-clip-text text-transparent animate-pulse">
+            宇宙探索者
+          </h1>
+          <h2 className="text-3xl md:text-4xl font-semibold text-blue-200">
+            Cosmos Explorer
+          </h2>
+          <p className="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+            交互式3D宇宙可视化平台 • 探索浩瀚星空 • 传承中华天文智慧
+          </p>
+          <p className="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">
+            沉浸式天文学习与探索体验，结合科学准确性与视觉震撼
+          </p>
+          
+          <div className="pt-8">
+            <button className="group relative px-12 py-6 text-xl font-semibold text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-full overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/25">
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <span className="relative z-10">开始探索宇宙</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Floating Solar System Preview */}
+        <div className="mt-16 relative">
+          <div className="flex items-center space-x-8 animate-pulse">
+            {/* Sun */}
+            <div className="w-8 h-8 bg-yellow-400 rounded-full shadow-lg shadow-yellow-400/50 animate-spin"></div>
+            {/* Planets */}
+            <div className="w-4 h-4 bg-red-400 rounded-full shadow-sm animate-bounce" style={{animationDelay: '0.5s'}}></div>
+            <div className="w-5 h-5 bg-blue-400 rounded-full shadow-sm animate-bounce" style={{animationDelay: '1s'}}></div>
+            <div className="w-3 h-3 bg-red-600 rounded-full shadow-sm animate-bounce" style={{animationDelay: '1.5s'}}></div>
+            <div className="w-6 h-6 bg-orange-400 rounded-full shadow-sm animate-bounce" style={{animationDelay: '2s'}}></div>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Grid */}
+      <section className="relative z-10 py-24 px-6">
+        <div className="max-w-7xl mx-auto">
+          <h3 className="text-4xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-300 to-purple-300 bg-clip-text text-transparent">
+            探索功能特色
+          </h3>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* 3D Solar System */}
+            <div className="group p-8 bg-gradient-to-br from-blue-900/40 to-purple-900/40 rounded-2xl backdrop-blur-sm border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 hover:scale-105">
+              <div className="text-4xl mb-6 text-blue-300">🪐</div>
+              <h4 className="text-2xl font-bold mb-4 text-blue-200">3D太阳系浏览器</h4>
+              <p className="text-gray-300 leading-relaxed">
+                实时太阳系模拟，8大行星精确轨道运行，支持时间控制和25个数量级缩放
+              </p>
+              <div className="mt-4 flex space-x-2">
+                {[...Array(8)].map((_, i) => (
+                  <div key={i} className={`w-2 h-2 rounded-full bg-gradient-to-r from-orange-400 to-blue-400 opacity-${70 + i * 5} animate-pulse`}></div>
+                ))}
+              </div>
+            </div>
+
+            {/* Deep Space */}
+            <div className="group p-8 bg-gradient-to-br from-purple-900/40 to-pink-900/40 rounded-2xl backdrop-blur-sm border border-purple-500/20 hover:border-purple-400/40 transition-all duration-300 hover:scale-105">
+              <div className="text-4xl mb-6 text-purple-300">🌌</div>
+              <h4 className="text-2xl font-bold mb-4 text-purple-200">深空天体探索</h4>
+              <p className="text-gray-300 leading-relaxed">
+                88个星座系统，银河系结构，宇宙大尺度结构可视化，哈勃韦伯图像集成
+              </p>
+              <div className="mt-4 grid grid-cols-4 gap-1">
+                {[...Array(16)].map((_, i) => (
+                  <div key={i} className="w-1 h-1 bg-purple-400 rounded-full animate-ping" style={{animationDelay: `${i * 0.1}s`}}></div>
+                ))}
+              </div>
+            </div>
+
+            {/* Chinese Astronomy */}
+            <div className="group p-8 bg-gradient-to-br from-yellow-900/40 to-orange-900/40 rounded-2xl backdrop-blur-sm border border-yellow-500/20 hover:border-yellow-400/40 transition-all duration-300 hover:scale-105">
+              <div className="text-4xl mb-6 text-yellow-300">🏮</div>
+              <h4 className="text-2xl font-bold mb-4 text-yellow-200">中国古代天文</h4>
+              <p className="text-gray-300 leading-relaxed">
+                二十八宿星官系统，三垣展示，古代天文仪器模拟，传统历法与文化内涵
+              </p>
+              <div className="mt-4 flex justify-center">
+                <div className="w-12 h-12 border-2 border-yellow-400 rounded-full flex items-center justify-center animate-spin">
+                  <div className="w-8 h-8 border-2 border-yellow-300 rounded-full"></div>
+                </div>
+              </div>
+            </div>
+
+            {/* Real-time Events */}
+            <div className="group p-8 bg-gradient-to-br from-green-900/40 to-teal-900/40 rounded-2xl backdrop-blur-sm border border-green-500/20 hover:border-green-400/40 transition-all duration-300 hover:scale-105">
+              <div className="text-4xl mb-6 text-green-300">🛰️</div>
+              <h4 className="text-2xl font-bold mb-4 text-green-200">实时天文事件</h4>
+              <p className="text-gray-300 leading-relaxed">
+                ISS实时追踪，天文事件日历，流星雨预报，基于地理位置的观测指南
+              </p>
+              <div className="mt-4 flex items-center space-x-2">
+                <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+                <div className="flex-1 h-1 bg-gradient-to-r from-green-400 to-transparent rounded"></div>
+                <span className="text-xs text-green-300">LIVE</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Interactive Preview */}
+      <section className="relative z-10 py-24 px-6 bg-black/30">
+        <div className="max-w-4xl mx-auto text-center">
+          <h3 className="text-4xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-purple-300">
+            沉浸式3D体验预览
+          </h3>
+          
+          <div className="relative h-80 bg-gradient-to-br from-indigo-950/50 to-purple-950/50 rounded-2xl border border-white/10 overflow-hidden">
+            {/* Simulated 3D Solar System */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="relative">
+                {/* Orbital paths */}
+                {[...Array(4)].map((_, i) => (
+                  <div key={i} className={`absolute border border-white/10 rounded-full`} style={{
+                    width: `${(i + 1) * 80}px`,
+                    height: `${(i + 1) * 80}px`,
+                    left: `${-(i + 1) * 40}px`,
+                    top: `${-(i + 1) * 40}px`
+                  }}></div>
+                ))}
+                
+                {/* Sun */}
+                <div className="w-8 h-8 bg-yellow-400 rounded-full shadow-lg shadow-yellow-400/50 relative z-10"></div>
+                
+                {/* Orbiting planets */}
+                {[...Array(4)].map((_, i) => (
+                  <div key={i} className="absolute animate-spin" style={{
+                    width: `${(i + 1) * 80}px`,
+                    height: `${(i + 1) * 80}px`,
+                    left: `${-(i + 1) * 40}px`,
+                    top: `${-(i + 1) * 40}px`,
+                    animationDuration: `${(i + 1) * 3 + 5}s`
+                  }}>
+                    <div className={`absolute w-${2 + i} h-${2 + i} rounded-full`} style={{
+                      backgroundColor: ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4'][i],
+                      right: '0',
+                      top: '50%',
+                      transform: 'translateY(-50%)'
+                    }}></div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+            <div className="absolute bottom-6 left-6 text-left">
+              <p className="text-sm text-gray-300">实时3D渲染 • 无缝缩放 • 物理模拟</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="relative z-10 py-24 px-6">
+        <div className="max-w-4xl mx-auto text-center space-y-8">
+          <h3 className="text-5xl font-bold bg-gradient-to-r from-cyan-300 via-blue-300 to-purple-300 bg-clip-text text-transparent">
+            开启你的宇宙之旅
+          </h3>
+          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+            从太阳系到可观测宇宙边缘，从现代天文到古代星象，一个平台探索无限星空
+          </p>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-8">
+            <button className="px-10 py-4 text-lg font-semibold bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full hover:scale-105 transition-transform duration-300 shadow-lg hover:shadow-2xl hover:shadow-purple-500/25">
+              开始探索宇宙
+            </button>
+            <button className="px-10 py-4 text-lg font-semibold border-2 border-white/30 text-white rounded-full hover:bg-white/10 transition-colors duration-300">
+              观看演示视频
+            </button>
+          </div>
+          
+          <div className="pt-8 text-sm text-gray-400 space-y-2">
+            <p>支持WebGL 2.0的现代浏览器 • 适配桌面端和移动端</p>
+            <p>基于Three.js构建 • 实时天文数据 • 免费使用</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="relative z-10 border-t border-white/10 py-12 px-6 bg-black/50">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-8 text-sm">
+          <div>
+            <h4 className="font-bold mb-4 text-blue-300">宇宙探索者</h4>
+            <p className="text-gray-400">让天文学变得触手可及</p>
+          </div>
+          <div>
+            <h4 className="font-bold mb-4 text-purple-300">功能模块</h4>
+            <div className="space-y-2 text-gray-400">
+              <p>3D太阳系</p>
+              <p>深空探索</p>
+              <p>古代天文</p>
+              <p>学习中心</p>
+            </div>
+          </div>
+          <div>
+            <h4 className="font-bold mb-4 text-yellow-300">技术特色</h4>
+            <div className="space-y-2 text-gray-400">
+              <p>WebGL渲染</p>
+              <p>实时数据</p>
+              <p>响应式设计</p>
+              <p>无障碍访问</p>
+            </div>
+          </div>
+          <div>
+            <h4 className="font-bold mb-4 text-green-300">关于项目</h4>
+            <div className="space-y-2 text-gray-400">
+              <p>开源项目</p>
+              <p>教育用途</p>
+              <p>文化传承</p>
+              <p>科学普及</p>
+            </div>
+          </div>
+        </div>
+        <div className="max-w-6xl mx-auto pt-8 text-center text-gray-500">
+          <p>&copy; 2024 宇宙探索者 (Cosmos Explorer) - 探索无限星空，传承天文智慧</p>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+export default App;
