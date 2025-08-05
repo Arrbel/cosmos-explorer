@@ -4,14 +4,16 @@ FROM node:18-alpine AS builder
 # 设置工作目录
 WORKDIR /app
 
-# 安装 pnpm（使用特定版本确保一致性）
-RUN npm install -g pnpm@8.15.0
+# 配置 npm 镜像源并安装 pnpm（使用特定版本确保一致性）
+RUN npm config set registry https://registry.npmmirror.com && \
+    npm install -g pnpm@8.15.0
 
 # 复制 package 文件（利用 Docker 缓存层）
 COPY package.json pnpm-lock.yaml ./
 
-# 安装依赖（生产环境优化）
-RUN pnpm install --frozen-lockfile --prod=false
+# 配置 pnpm 镜像源并安装依赖（生产环境优化）
+RUN pnpm config set registry https://registry.npmmirror.com && \
+    pnpm install --frozen-lockfile --prod=false
 
 # 复制源代码
 COPY . .
